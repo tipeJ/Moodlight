@@ -27,8 +27,11 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: ChangeNotifierProvider<ConnectionProvider>(
-          create: (_) => ConnectionProvider(),
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => LightingProvider()),
+            ChangeNotifierProvider(create: (_) => ConnectionProvider()),
+          ],
           child: Navigator(
             initialRoute: 'main',
             onGenerateRoute: (settings) {
