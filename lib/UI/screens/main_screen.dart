@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moodlight/models/light_configs.dart';
 import 'package:moodlight/resources/resources.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
@@ -18,6 +19,14 @@ class ConnectionProvider extends ChangeNotifier {
   BluetoothCharacteristic? modeChar;
   BluetoothService? lightService;
   BluetoothCharacteristic? lightChar;
+  BluetoothService? buttonsService;
+  BluetoothCharacteristic? buttons1Char;
+  BluetoothCharacteristic? buttons2Char;
+  BluetoothCharacteristic? buttons3Char;
+  BluetoothCharacteristic? buttons4Char;
+  BluetoothCharacteristic? buttons5Char;
+  BluetoothCharacteristic? buttons6Char;
+  BluetoothCharacteristic? buttons7Char;
 
   int mode_value = -1;
   StreamSubscription<List<int>>? modeStreamSubscription;
@@ -75,18 +84,29 @@ class ConnectionProvider extends ChangeNotifier {
     FlutterBluePlus.stopScan();
   }
 
+  BluetoothCharacteristic _getCharacteristic(
+      BluetoothService service, String uuid) {
+    return service.characteristics.firstWhere(
+        (element) => element.uuid == Guid(uuid),
+        orElse: () => throw Exception('Characteristic $uuid not found'));
+  }
+
   void connectToDevice(BluetoothDevice device) async {
     try {
       print("Connecting to device: " + device.platformName);
+      print("ASD");
       await device.connect();
+      print("ASDASDA");
       connectedDevice = device;
-      int mtuFirst = await device.mtu.first;
-      print("Initial MTU: " + mtuFirst.toString());
+      // int mtuFirst = await device.mtu.first;
+      print("ASDASDAasfdsdfasdfad");
+      // print("Initial MTU: " + mtuFirst.toString());
       int requestedMtu = await connectedDevice!.requestMtu(256);
       print("Requested MTU: " + requestedMtu.toString());
       // Listen to connectionstate changes, and if disconnected, set connectedDevice to null and cancel subscriptions
       device.connectionState.listen((event) {
         if (event == BluetoothConnectionState.disconnected) {
+          print("Disconnected from device");
           connectedDevice = null;
           modeChar = null;
           modeService = null;
@@ -109,12 +129,10 @@ class ConnectionProvider extends ChangeNotifier {
           (element) => element.uuid == Guid(MODE_SERVICE_UUID),
           orElse: () => throw Exception('Mode service not found'));
       // Take the mode characteristic
-      modeChar = modeService!.characteristics.firstWhere(
-          (element) => element.uuid == Guid(MODE_CHAR_UUID),
-          orElse: () => throw Exception('Mode characteristic not found'));
+      modeChar = _getCharacteristic(modeService!, MODE_CHAR_UUID);
       await modeChar!.read();
-      modeReaderStreamSubscription =
-          modeStream(modeChar).listen((event) {}, onDone: () => print("DONE"));
+      // modeReaderStreamSubscription =
+      //     modeStream(modeChar).listen((event) {}, onDone: () => print("DONE"));
       modeStreamSubscription = modeChar!.lastValueStream.listen((event) {
         if (event.isEmpty) {
           return;
@@ -127,12 +145,32 @@ class ConnectionProvider extends ChangeNotifier {
           (element) => element.uuid == Guid(LIGHT_SERVICE_UUID),
           orElse: () => throw Exception('Light service not found'));
       // Take the light characteristic
-      lightChar = lightService!.characteristics.firstWhere(
-          (element) => element.uuid == Guid(LIGHT_SERVICE_SETTING_CHAR_UUID),
-          orElse: () => throw Exception('Light characteristic not found'));
+      lightChar =
+          _getCharacteristic(lightService!, LIGHT_SERVICE_SETTING_CHAR_UUID);
+
+      buttonsService = services.firstWhere(
+          (element) => element.uuid == Guid(BUTTONS_SERVICE_UUID),
+          orElse: () => throw Exception('Buttons service not found'));
+      buttons1Char = _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
+      buttons2Char = _getCharacteristic(buttonsService!, BUTTON_2_CHAR_UUID);
+      await buttons1Char!.setNotifyValue(true);
+      await buttons2Char!.setNotifyValue(true);
+      for (BluetoothDescriptor descriptor in buttons1Char!.descriptors) {
+        // If the descriptor is the Client Characteristic Configuration, enable notifications
+        if (descriptor.uuid == Guid("00002902-0000-1000-8000-00805f9b34fb")) {
+          await descriptor.write([0x01, 0x00]);
+        }
+      }
+      // Get the first descriptor of the characteristic
+      buttons1Char!.onValueReceived.listen((event) {
+        print("BUTTON 1 PRESSED");
+      });
+      buttons2Char!.onValueReceived.listen((event) {
+        print("BUTTON 2 PRESSED");
+      });
       notifyListeners();
     } catch (e) {
-      print(e);
+      print("Error connecting to device: $e");
     }
   }
 
@@ -161,21 +199,19 @@ class ConnectionProvider extends ChangeNotifier {
       print("WRITING MODE VALUE: " + mode_value.toString());
       try {
         await modeChar!.write([mode_value]);
+        notifyListeners();
       } catch (e) {
         print(e);
       }
     }
   }
 
-  int changer = 0;
-
-  void send_light_setting() async {
+  void send_light_setting(SolidLightConfiguration config) async {
     // Sends sample JSON setting to the device
     if (lightChar != null) {
       try {
         await lightChar!.write(utf8.encode(
-            '{"mode": "solid", "color": [$changer, 0, 0, 0], "brightness": 100}'));
-        changer = (changer + 1) % 255;
+            '{"mode": "solid", "color": [${config.red}, ${config.green}, ${config.blue}, ${config.white}]}'));
       } catch (e) {
         print(e);
       }

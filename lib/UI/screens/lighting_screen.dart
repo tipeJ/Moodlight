@@ -91,7 +91,9 @@ class LightingScreen extends StatelessWidget {
         ElevatedButton(
             onPressed: () {
               Provider.of<ConnectionProvider>(context, listen: false)
-                  .send_light_setting();
+                  .send_light_setting(
+                      Provider.of<LightingProvider>(context, listen: false)
+                          .currentConfig!);
             },
             child: Text("Set color")),
       ],
