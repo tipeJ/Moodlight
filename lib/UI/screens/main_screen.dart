@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moodlight/models/light_configs.dart';
@@ -12,6 +14,24 @@ import '../dialogs/dialogs.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Handles connection with bluetooth to the device and the optional speakers
+typedef void buttonCallback(int mode_value);
+
+// Button click callback for given index
+void handle_button_1_click(int mode_value) async {
+  if (mode_value == MODE_SOUNDBOARD) {
+    // Play the sound
+    print("PLAYING SOUND 1");
+    final player = AudioPlayer(playerId: "ASD");
+    String soundFile = "hohhoijaa.mp3";
+    await player.play(AssetSource('sounds/$soundFile'), volume: 1.0);
+  }
+}
+
+// Constant empty callback
+void emptyCallback(int mode_value) {
+  print("button pressed");
+}
+
 class ConnectionProvider extends ChangeNotifier {
   final List<BluetoothDevice> devicesList = [];
   BluetoothDevice? connectedDevice;
@@ -20,13 +40,18 @@ class ConnectionProvider extends ChangeNotifier {
   BluetoothService? lightService;
   BluetoothCharacteristic? lightChar;
   BluetoothService? buttonsService;
-  BluetoothCharacteristic? buttons1Char;
-  BluetoothCharacteristic? buttons2Char;
-  BluetoothCharacteristic? buttons3Char;
-  BluetoothCharacteristic? buttons4Char;
-  BluetoothCharacteristic? buttons5Char;
-  BluetoothCharacteristic? buttons6Char;
-  BluetoothCharacteristic? buttons7Char;
+  List<BluetoothCharacteristic> buttonsCharacteristics = [];
+  List<StreamSubscription<List<int>>> buttonSubscriptions = [];
+  // List of click callbacks for the buttons
+  List<buttonCallback> buttonClickCallbacks = [
+    handle_button_1_click,
+    emptyCallback,
+    emptyCallback,
+    emptyCallback,
+    emptyCallback,
+    emptyCallback,
+    emptyCallback
+  ];
 
   int mode_value = -1;
   StreamSubscription<List<int>>? modeStreamSubscription;
@@ -94,13 +119,8 @@ class ConnectionProvider extends ChangeNotifier {
   void connectToDevice(BluetoothDevice device) async {
     try {
       print("Connecting to device: " + device.platformName);
-      print("ASD");
       await device.connect();
-      print("ASDASDA");
       connectedDevice = device;
-      // int mtuFirst = await device.mtu.first;
-      print("ASDASDAasfdsdfasdfad");
-      // print("Initial MTU: " + mtuFirst.toString());
       int requestedMtu = await connectedDevice!.requestMtu(256);
       print("Requested MTU: " + requestedMtu.toString());
       // Listen to connectionstate changes, and if disconnected, set connectedDevice to null and cancel subscriptions
@@ -116,6 +136,7 @@ class ConnectionProvider extends ChangeNotifier {
           modeReaderStreamSubscription = null;
           lightChar = null;
           lightService = null;
+          buttonsCharacteristics.clear();
           notifyListeners();
         }
       });
@@ -151,22 +172,14 @@ class ConnectionProvider extends ChangeNotifier {
       buttonsService = services.firstWhere(
           (element) => element.uuid == Guid(BUTTONS_SERVICE_UUID),
           orElse: () => throw Exception('Buttons service not found'));
-      buttons1Char = _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
-      buttons2Char = _getCharacteristic(buttonsService!, BUTTON_2_CHAR_UUID);
-      await buttons1Char!.setNotifyValue(true);
-      await buttons2Char!.setNotifyValue(true);
-      for (BluetoothDescriptor descriptor in buttons1Char!.descriptors) {
-        // If the descriptor is the Client Characteristic Configuration, enable notifications
-        if (descriptor.uuid == Guid("00002902-0000-1000-8000-00805f9b34fb")) {
-          await descriptor.write([0x01, 0x00]);
-        }
-      }
-      // Get the first descriptor of the characteristic
-      buttons1Char!.onValueReceived.listen((event) {
-        print("BUTTON 1 PRESSED");
-      });
-      buttons2Char!.onValueReceived.listen((event) {
-        print("BUTTON 2 PRESSED");
+      // for (final char in BUTTON_CHAR_UUIDs) {
+      final buttonChar =
+          _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
+      await buttonChar.setNotifyValue(true);
+      buttonsCharacteristics.add(buttonChar);
+      buttonChar.onValueReceived.listen((event) {
+        print("Button pressed");
+        buttonClickCallbacks[0](mode_value);
       });
       notifyListeners();
     } catch (e) {
