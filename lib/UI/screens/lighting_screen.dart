@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:moodlight/UI/screens/screens.dart';
 import 'package:moodlight/models/models.dart';
+import 'package:moodlight/util/utils.dart';
 import 'package:provider/provider.dart';
 
 class LightingProvider extends ChangeNotifier {
@@ -28,19 +29,10 @@ class LightingScreen extends StatelessWidget {
                             .currentConfig ==
                         null
                     ? Colors.black
-                    : Color.fromARGB(
-                        Provider.of<LightingProvider>(context, listen: false)
-                            .currentConfig!
-                            .white,
-                        Provider.of<LightingProvider>(context, listen: false)
-                            .currentConfig!
-                            .red,
-                        Provider.of<LightingProvider>(context, listen: false)
-                            .currentConfig!
-                            .green,
-                        Provider.of<LightingProvider>(context, listen: false)
-                            .currentConfig!
-                            .blue);
+                    : Provider.of<LightingProvider>(context, listen: false)
+                        .currentConfig!
+                        .color
+                        .toColor();
             // Use FlutterColorPicker to select a color
             Color? result = await showDialog(
                 context: context,
@@ -51,6 +43,7 @@ class LightingScreen extends StatelessWidget {
                     content: SingleChildScrollView(
                       child: ColorPicker(
                         pickerColor: preColor,
+                        labelTypes: const [ColorLabelType.hsl],
                         onColorChanged: (color) {
                           _currentColor = color;
                         },
@@ -70,10 +63,7 @@ class LightingScreen extends StatelessWidget {
             if (result == null) return;
             Provider.of<LightingProvider>(context, listen: false)
                 .set_light_config(SolidLightConfiguration(
-              red: result.red,
-              green: result.green,
-              blue: result.blue,
-              white: result.alpha,
+              color: HSLColor.fromColor(result),
             ));
           },
           child: Container(
@@ -81,11 +71,10 @@ class LightingScreen extends StatelessWidget {
             height: 100,
             color: Provider.of<LightingProvider>(context).currentConfig == null
                 ? Colors.black
-                : Color.fromARGB(
-                    Provider.of<LightingProvider>(context).currentConfig!.white,
-                    Provider.of<LightingProvider>(context).currentConfig!.red,
-                    Provider.of<LightingProvider>(context).currentConfig!.green,
-                    Provider.of<LightingProvider>(context).currentConfig!.blue),
+                : Provider.of<LightingProvider>(context)
+                    .currentConfig!
+                    .color
+                    .toColor(),
           ),
         ),
         ElevatedButton(

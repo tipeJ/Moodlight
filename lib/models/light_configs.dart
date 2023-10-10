@@ -1,10 +1,12 @@
-class SolidLightConfiguration {
+import 'package:flutter/material.dart';
+
+class RGBWColor {
   final int red;
   final int green;
   final int blue;
   final int white;
 
-  SolidLightConfiguration(
+  RGBWColor(
       {required this.red,
       required this.green,
       required this.blue,
@@ -18,4 +20,10 @@ class SolidLightConfiguration {
       'white': white,
     };
   }
+}
+
+class SolidLightConfiguration {
+  final HSLColor color;
+
+  SolidLightConfiguration({required this.color});
 }

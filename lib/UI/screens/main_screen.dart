@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moodlight/models/light_configs.dart';
 import 'package:moodlight/resources/resources.dart';
+import 'package:moodlight/util/utils.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
 import '../dialogs/dialogs.dart';
@@ -223,8 +224,9 @@ class ConnectionProvider extends ChangeNotifier {
     // Sends sample JSON setting to the device
     if (lightChar != null) {
       try {
+        RGBWColor rgbw = config.color.toRGBWColor();
         await lightChar!.write(utf8.encode(
-            '{"mode": "solid", "color": [${config.red}, ${config.green}, ${config.blue}, ${config.white}]}'));
+            '{"mode": "solid", "color": [${rgbw.red}, ${rgbw.green}, ${rgbw.blue}, ${rgbw.white}]}'));
       } catch (e) {
         print(e);
       }
