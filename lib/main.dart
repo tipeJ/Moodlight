@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moodlight/UI/dialogs/connection_dialog.dart';
+import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
 import 'UI/screens/screens.dart';
 

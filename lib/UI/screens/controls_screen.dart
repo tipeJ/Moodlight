@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/screens/screens.dart';
+import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
 import 'package:moodlight/resources/resources.dart';
 

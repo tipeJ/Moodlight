@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:moodlight/UI/screens/screens.dart';
+import 'package:moodlight/UI/providers/providers.dart';
 import 'package:moodlight/models/models.dart';
 import 'package:moodlight/util/utils.dart';
 import 'package:provider/provider.dart';
