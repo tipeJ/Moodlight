@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:moodlight/resources/resources.dart';
 import 'package:moodlight/util/utils.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
-import '../dialogs/dialogs.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Handles connection with bluetooth to the device and the optional speakers
@@ -249,7 +247,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        print("Will pop");
+        navigatorKey.currentState!.maybePop();
         return Future.value(false);
       },
       child: Scaffold(
@@ -318,6 +316,10 @@ class _MainScreenState extends State<MainScreen> {
                 switch (settings.name) {
                   case 'soundboard':
                     screen = const SoundBoardScreen();
+                    break;
+                  case 'soundboardCategory':
+                    screen = SoundBoardCategoryScreen(
+                        category: settings.arguments as String);
                     break;
                   case 'controls':
                     screen = const ControlsScreen();

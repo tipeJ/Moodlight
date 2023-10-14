@@ -1,1 +1,4 @@
-hohhoijaa.mp3:hohhoijaa.png
+Seppo Papunen:hohhoijaa.png
+ Hohhoijaa:hohhoijaa.mp3
+Knallit:knalli.png
+ Ahaa!:ahaa.mp3

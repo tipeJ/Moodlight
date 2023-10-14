@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
         ),
         home: WillPopScope(
           onWillPop: () {
-            print('Back button pressed');
             mainNavigator.currentState!.maybePop();
             return Future.value(false);
           },
