@@ -11,6 +11,6 @@ class SoundboardPlayer {
   SoundboardPlayer._internal();
 
   Future<void> playSound(String soundFile) async {
-    await player.play(AssetSource('sounds/$soundFile'), volume: 1.0);
+    await player.play(AssetSource('sounds/${soundFile.trim()}'), volume: 1.0);
   }
 }

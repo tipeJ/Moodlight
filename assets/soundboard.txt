@@ -1,4 +1,12 @@
 Seppo Papunen:hohhoijaa.png
  Hohhoijaa:hohhoijaa.mp3
+ Ei harmainta aavistustakaan:eiharmainta.mp3
+ Lapsen tasolla:lapsentasolla.mp3
+ EMT niitä on paljon:niitaonpaljon.mp3
+ No sit se on just nii:nositseonjustnii.mp3
+ Totta ihmeessä!:tottaihmeessa.mp3
 Knallit:knalli.png
  Ahaa!:ahaa.mp3
+Härkis:banger.png
+ Faktat:faktat.mp3
+ Low-key Bangeri:bangeri.mp3
