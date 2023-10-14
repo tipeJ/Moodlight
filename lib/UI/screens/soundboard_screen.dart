@@ -72,12 +72,22 @@ class SoundBoardCategoryScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
+              itemCount: snapshot.data!.length + 1,
+              itemBuilder: (context, i) {
+                if (i == 0) {
+                  return Container(
+                    margin: const EdgeInsets.all(8.0),
+                    child: Text(
+                      category,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  );
+                }
+                int index = i - 1;
                 final name = snapshot.data![index].split(':')[0];
                 final soundFile = snapshot.data![index].split(':')[1];
                 return Container(
-                  color: index % 2 != 0
+                  color: index % 2 == 0
                       ? Colors.black.withOpacity(0.1)
                       : Colors.white,
                   child: ListTile(
