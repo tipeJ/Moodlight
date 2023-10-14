@@ -26,6 +26,9 @@ Sus:sussy.png
  Body found:amogusbodyfound.mp3
 Anime:anime.png
  Nani?!:nani.mp3
+Ihmisten Puolue:ihmistenpuolue.png
+ Paska Päätös:paskapaatos.mp3
 Random:random.png
  WorkWork:workwork.mp3
  Spooky Waterphone:waterphone.mp3
+ Fail Horn:failhorn.mp3
