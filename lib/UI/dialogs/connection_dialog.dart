@@ -8,8 +8,18 @@ import 'package:provider/provider.dart';
 class BLEConnectionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
+    return Scaffold(
+      // Appbar with back button
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).maybePop();
+          },
+        ),
+        title: const Text('Connect to a device'),
+      ),
+      body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Padding(

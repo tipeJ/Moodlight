@@ -220,13 +220,11 @@ class ConnectionProvider extends ChangeNotifier {
     }
   }
 
-  void send_light_setting(SolidLightConfiguration config) async {
+  void send_light_setting(LightConfiguration config) async {
     // Sends sample JSON setting to the device
     if (lightChar != null) {
       try {
-        RGBWColor rgbw = config.color.toRGBWColor();
-        await lightChar!.write(utf8.encode(
-            '{"mode": "solid", "color": [${rgbw.red}, ${rgbw.green}, ${rgbw.blue}, ${rgbw.white}]}'));
+        await lightChar!.write(utf8.encode(config.toJson()));
       } catch (e) {
         print(e);
       }
@@ -249,85 +247,92 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: Consumer<ConnectionProvider>(
-                builder: (context, connectionProvider, child) {
-              return Text(
-                  connectionProvider.connectedDevice?.platformName ?? '');
-            }),
-            actions: [
-              Builder(
-                  builder: ((con) => IconButton(
-                        icon: const Icon(Icons.bluetooth_connected),
-                        onPressed: () {
-                          final provider = Provider.of<ConnectionProvider>(con,
-                              listen: false);
-                          provider.scan();
-                          Navigator.of(context).pushNamed('connector');
-                        },
-                      )))
-            ],
-            flexibleSpace: const Icon(
-              Icons.bluetooth_connected,
-              color: Colors.white,
-              size: 40.0,
-            )),
-        bottomNavigationBar: Consumer<ConnectionProvider>(
-            builder: (context, connectionProvider, child) {
-          return BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.music_note),
-                label: 'Soundboard',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.control_camera_sharp),
-                label: 'Controls',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.light_mode),
-                label: 'Lighting',
-              ),
-            ],
-            currentIndex: _index,
-            selectedItemColor: Colors.amber[800],
-            onTap: (index) {
-              setState(() {
-                _index = index;
-              });
-              if (index == 0) {
-                navigatorKey.currentState!.pushReplacementNamed('soundboard');
-              } else if (index == 1) {
-                navigatorKey.currentState!.pushReplacementNamed('controls');
-              } else {
-                navigatorKey.currentState!.pushReplacementNamed('lighting');
-              }
-            },
-          );
-        }),
-        body: Navigator(
-            initialRoute: 'soundboard',
-            key: navigatorKey,
-            onGenerateRoute: ((settings) {
-              late Widget screen;
-              switch (settings.name) {
-                case 'soundboard':
-                  screen = const SoundBoardScreen();
-                  break;
-                case 'controls':
-                  screen = const ControlsScreen();
-                  break;
-                case 'lighting':
-                  screen = const LightingScreen();
-                  break;
-                default:
-                  screen = const SoundBoardScreen();
-              }
-              return PageRouteBuilder(
-                  pageBuilder: (context, an1, an2) => screen,
-                  transitionDuration: Duration.zero,
-                  reverseTransitionDuration: Duration.zero);
-            })));
+    return WillPopScope(
+      onWillPop: () {
+        print("Will pop");
+        return Future.value(false);
+      },
+      child: Scaffold(
+          appBar: AppBar(
+              title: Consumer<ConnectionProvider>(
+                  builder: (context, connectionProvider, child) {
+                return Text(
+                    connectionProvider.connectedDevice?.platformName ?? '');
+              }),
+              actions: [
+                Builder(
+                    builder: ((con) => IconButton(
+                          icon: const Icon(Icons.bluetooth_connected),
+                          onPressed: () {
+                            final provider = Provider.of<ConnectionProvider>(
+                                con,
+                                listen: false);
+                            provider.scan();
+                            Navigator.of(context).pushNamed('connector');
+                          },
+                        )))
+              ],
+              flexibleSpace: const Icon(
+                Icons.bluetooth_connected,
+                color: Colors.white,
+                size: 40.0,
+              )),
+          bottomNavigationBar: Consumer<ConnectionProvider>(
+              builder: (context, connectionProvider, child) {
+            return BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.music_note),
+                  label: 'Soundboard',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.control_camera_sharp),
+                  label: 'Controls',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.light_mode),
+                  label: 'Lighting',
+                ),
+              ],
+              currentIndex: _index,
+              selectedItemColor: Colors.amber[800],
+              onTap: (index) {
+                setState(() {
+                  _index = index;
+                });
+                if (index == 0) {
+                  navigatorKey.currentState!.pushReplacementNamed('soundboard');
+                } else if (index == 1) {
+                  navigatorKey.currentState!.pushReplacementNamed('controls');
+                } else {
+                  navigatorKey.currentState!.pushReplacementNamed('lighting');
+                }
+              },
+            );
+          }),
+          body: Navigator(
+              initialRoute: 'soundboard',
+              key: navigatorKey,
+              onGenerateRoute: ((settings) {
+                late Widget screen;
+                switch (settings.name) {
+                  case 'soundboard':
+                    screen = const SoundBoardScreen();
+                    break;
+                  case 'controls':
+                    screen = const ControlsScreen();
+                    break;
+                  case 'lighting':
+                    screen = const LightingScreen();
+                    break;
+                  default:
+                    screen = const SoundBoardScreen();
+                }
+                return PageRouteBuilder(
+                    pageBuilder: (context, an1, an2) => screen,
+                    transitionDuration: Duration.zero,
+                    reverseTransitionDuration: Duration.zero);
+              }))),
+    );
   }
 }

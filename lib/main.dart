@@ -7,6 +7,8 @@ void main() {
   runApp(const MyApp());
 }
 
+final GlobalKey<NavigatorState> mainNavigator = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -27,23 +29,31 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => LightingProvider()),
-            ChangeNotifierProvider(create: (_) => ConnectionProvider()),
-          ],
-          child: Navigator(
-            initialRoute: 'main',
-            onGenerateRoute: (settings) {
-              switch (settings.name) {
-                case 'connector':
-                  return MaterialPageRoute(
-                      builder: (context) => BLEConnectionDialog());
-                default:
-                  return MaterialPageRoute(
-                      builder: (context) => const MainScreen());
-              }
-            },
+        home: WillPopScope(
+          onWillPop: () {
+            print('Back button pressed');
+            mainNavigator.currentState!.maybePop();
+            return Future.value(false);
+          },
+          child: MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => LightingProvider()),
+              ChangeNotifierProvider(create: (_) => ConnectionProvider()),
+            ],
+            child: Navigator(
+              key: mainNavigator,
+              initialRoute: 'main',
+              onGenerateRoute: (settings) {
+                switch (settings.name) {
+                  case 'connector':
+                    return MaterialPageRoute(
+                        builder: (context) => BLEConnectionDialog());
+                  default:
+                    return MaterialPageRoute(
+                        builder: (context) => const MainScreen());
+                }
+              },
+            ),
           ),
         ));
   }

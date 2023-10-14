@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 
-class RGBWColor {
-  final int red;
-  final int green;
-  final int blue;
-  final int white;
+abstract class LightConfiguration {
+  String toJson();
+}
 
-  RGBWColor(
-      {required this.red,
-      required this.green,
-      required this.blue,
-      required this.white});
+class SolidLightConfiguration extends LightConfiguration {
+  final Color color;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'red': red,
-      'green': green,
-      'blue': blue,
-      'white': white,
-    };
+  SolidLightConfiguration({required this.color});
+
+  @override
+  String toJson() {
+    return '{"mode": "solid", "color": [${color.red}, ${color.green}, ${color.blue}]}';
   }
 }
 
-class SolidLightConfiguration {
-  final HSLColor color;
+class RainbowLightConfiguration extends LightConfiguration {
+  final int waitMS;
 
-  SolidLightConfiguration({required this.color});
+  RainbowLightConfiguration({required this.waitMS});
+
+  @override
+  String toJson() {
+    return '{"mode": "rainbow", "wait_ms": $waitMS}';
+  }
 }

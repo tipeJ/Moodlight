@@ -31,8 +31,7 @@ class LightingScreen extends StatelessWidget {
                     ? Colors.black
                     : Provider.of<LightingProvider>(context, listen: false)
                         .currentConfig!
-                        .color
-                        .toColor();
+                        .color;
             // Use FlutterColorPicker to select a color
             Color? result = await showDialog(
                 context: context,
@@ -63,7 +62,7 @@ class LightingScreen extends StatelessWidget {
             if (result == null) return;
             Provider.of<LightingProvider>(context, listen: false)
                 .set_light_config(SolidLightConfiguration(
-              color: HSLColor.fromColor(result),
+              color: result,
             ));
           },
           child: Container(
@@ -71,10 +70,7 @@ class LightingScreen extends StatelessWidget {
             height: 100,
             color: Provider.of<LightingProvider>(context).currentConfig == null
                 ? Colors.black
-                : Provider.of<LightingProvider>(context)
-                    .currentConfig!
-                    .color
-                    .toColor(),
+                : Provider.of<LightingProvider>(context).currentConfig!.color,
           ),
         ),
         ElevatedButton(
@@ -85,6 +81,13 @@ class LightingScreen extends StatelessWidget {
                           .currentConfig!);
             },
             child: Text("Set color")),
+
+        ElevatedButton(
+            onPressed: () {
+              Provider.of<ConnectionProvider>(context, listen: false)
+                  .send_light_setting(RainbowLightConfiguration(waitMS: 2));
+            },
+            child: const Text("Set Rainbow"))
       ],
     );
   }
