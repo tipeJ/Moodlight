@@ -19,3 +19,13 @@ Knallit:knalli.png
 Härkis:banger.png
  Faktat:faktat.mp3
  Low-key Bangeri:bangeri.mp3
+Sus:sussy.png
+ You've been seeming sus:seeminsus.mp3
+ Sussy Baka!:sussybaka.mp3
+ Round start:amogusroundstart.mp3
+ Body found:amogusbodyfound.mp3
+Anime:anime.png
+ Nani?!:nani.mp3
+Random:random.png
+ WorkWork:workwork.mp3
+ Spooky Waterphone:waterphone.mp3
