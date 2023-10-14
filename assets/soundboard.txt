@@ -5,8 +5,17 @@ Seppo Papunen:hohhoijaa.png
  EMT niitä on paljon:niitaonpaljon.mp3
  No sit se on just nii:nositseonjustnii.mp3
  Totta ihmeessä!:tottaihmeessa.mp3
+ Kuka näin on sanonu?:kukaonsanonu.mp3
 Knallit:knalli.png
  Ahaa!:ahaa.mp3
+ Ai onko?:aionko.mp3
+ Hyi siivotonta:hyi.mp3
+ Jukra, mitä nyt?:jukra.mp3
+ Eikai täällä laiskotella😡:laiskotella.mp3
+ Lemuaa:lemuaa.mp3
+ Manimanimani:mani.mp3
+ Mitä tuli tehtyä?:mitateit.mp3
+ Seksihullu🍆:shullu.mp3
 Härkis:banger.png
  Faktat:faktat.mp3
  Low-key Bangeri:bangeri.mp3
