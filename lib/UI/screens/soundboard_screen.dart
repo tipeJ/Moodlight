@@ -76,11 +76,16 @@ class SoundBoardCategoryScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final name = snapshot.data![index].split(':')[0];
                 final soundFile = snapshot.data![index].split(':')[1];
-                return ListTile(
-                  title: Text(name),
-                  onTap: () async {
-                    SoundboardPlayer().playSound(soundFile);
-                  },
+                return Container(
+                  color: index % 2 != 0
+                      ? Colors.black.withOpacity(0.1)
+                      : Colors.white,
+                  child: ListTile(
+                    title: Text(name),
+                    onTap: () async {
+                      SoundboardPlayer().playSound(soundFile);
+                    },
+                  ),
                 );
               },
             );
