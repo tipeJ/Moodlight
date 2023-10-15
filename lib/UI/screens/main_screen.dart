@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _index = 0;
+  int _index = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class _MainScreenState extends State<MainScreen> {
             );
           }),
           body: Navigator(
-              initialRoute: 'soundboard',
+              initialRoute: 'lighting',
               key: navigatorKey,
               onGenerateRoute: ((settings) {
                 late Widget screen;

@@ -240,7 +240,6 @@ class ConnectionProvider extends ChangeNotifier {
       mode_value = MODE_LIGHTS;
     }
     if (modeChar != null) {
-      print("WRITING MODE VALUE: " + mode_value.toString());
       try {
         await modeChar!.write([mode_value]);
         notifyListeners();
@@ -250,8 +249,9 @@ class ConnectionProvider extends ChangeNotifier {
     }
   }
 
-  void send_light_setting(LightConfiguration config) async {
+  void sendLightConfig(LightConfiguration config) async {
     // Sends sample JSON setting to the device
+    print("Sending config: " + config.toJson());
     if (lightChar != null) {
       try {
         await lightChar!.write(utf8.encode(config.toJson()));

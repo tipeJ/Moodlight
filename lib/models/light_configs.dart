@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 
 abstract class LightConfiguration {
   String toJson();
+  String get name;
+  String get description;
 }
 
 class SolidLightConfiguration extends LightConfiguration {
-  final Color color;
+  String get name => 'Solid';
+  String get description => 'Solid color';
+  Color color;
+
+  static SolidLightConfiguration get defaultConfig =>
+      SolidLightConfiguration(color: Colors.black);
 
   SolidLightConfiguration({required this.color});
 
@@ -16,7 +23,12 @@ class SolidLightConfiguration extends LightConfiguration {
 }
 
 class RainbowLightConfiguration extends LightConfiguration {
-  final int waitMS;
+  String get name => 'Rainbow';
+  String get description =>
+      'Rotating rainbow. Speed can be adjusted with the "Wait time" slider';
+  int waitMS;
+  static RainbowLightConfiguration get defaultConfig =>
+      RainbowLightConfiguration(waitMS: 10);
 
   RainbowLightConfiguration({required this.waitMS});
 
@@ -27,10 +39,17 @@ class RainbowLightConfiguration extends LightConfiguration {
 }
 
 class GradientPulseConfiguration extends LightConfiguration {
-  final Color color1;
-  final Color color2;
-  final int steps;
-  final int waitMS;
+  String get name => 'Gradient Pulse';
+  String get description =>
+      'Pulse between two colors. Speed can be adjusted with the "Wait time" slider and the number of steps with the "Steps" slider';
+
+  static GradientPulseConfiguration get defaultConfig =>
+      GradientPulseConfiguration(
+          color1: Colors.red, color2: Colors.blue, steps: 10, waitMS: 10);
+  Color color1;
+  Color color2;
+  int steps;
+  int waitMS;
 
   GradientPulseConfiguration(
       {required this.color1,
