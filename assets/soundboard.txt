@@ -26,9 +26,21 @@ Sus:sussy.png
  Body found:amogusbodyfound.mp3
 Anime:anime.png
  Nani?!:nani.mp3
+ wow:animewow.mp3
 Ihmisten Puolue:ihmistenpuolue.png
  Paska Päätös:paskapaatos.mp3
-Random:random.png
+WoW:wow.png
  WorkWork:workwork.mp3
+ You are weak:cthunyouareweak.ogg
+ You will die:cthunyouwilldie.ogg
+ Draenei Flirt:DraeneiFemaleFlirt08.ogg
+ Rejuvenation:Rejuvenation.ogg
+ Goblin Cry:wowgoblincry.ogg
+ Horseman laugh:wowhorsemanlaugh.ogg
+ DING!:wowlevelup.ogg
+ Quest Complete!:wowquestcomplete.mp3
+ Ready Check:wowreadycheck.ogg
+ That's not funny:WoWThatsNotFunny.ogg
+Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
