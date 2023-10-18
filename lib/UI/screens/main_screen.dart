@@ -35,6 +35,18 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   child: Text('Moodlight'),
                 ),
+                // Tile for dark mode
+                ListTile(
+                  title: const Text('Dark Mode'),
+                  trailing: Consumer<PreferencesProvider>(
+                      builder: (context, preferencesProvider, child) {
+                    return Switch(
+                        value: preferencesProvider.isDarkMode(),
+                        onChanged: (value) {
+                          preferencesProvider.setDarkMode(value);
+                        });
+                  }),
+                ),
                 ListTile(
                   title: const Text('Manual Connection'),
                   onTap: () {
@@ -67,19 +79,12 @@ class _MainScreenState extends State<MainScreen> {
                           builder: (con, connectionProvider, child) =>
                               Container(
                             margin: const EdgeInsets.all(8.0),
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.transparent,
-                                disabledForegroundColor: Colors.grey,
-                                side: BorderSide(
-                                    color: connectionProvider.isConnected()
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    connectionProvider.isConnected()
                                         ? Colors.redAccent
-                                        : Colors.white,
-                                    width: 1.5),
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
+                                        : Theme.of(context).primaryColor,
                               ),
                               onPressed: () {
                                 if (connectionProvider.isConnected()) {
@@ -102,12 +107,13 @@ class _MainScreenState extends State<MainScreen> {
                                       connectionProvider.isConnected()
                                           ? 'Disconnect'
                                           : 'Connect',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          color:
-                                              connectionProvider.isConnected()
-                                                  ? Colors.redAccent
-                                                  : Colors.white)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                    ),
                             ),
                           ),
                         )))

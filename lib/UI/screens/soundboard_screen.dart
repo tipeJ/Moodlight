@@ -89,7 +89,7 @@ class SoundBoardCategoryScreen extends StatelessWidget {
                 return Container(
                   color: index % 2 == 0
                       ? Colors.black.withOpacity(0.1)
-                      : Colors.white,
+                      : Colors.transparent,
                   child: ListTile(
                     title: Text(name),
                     onTap: () async {
