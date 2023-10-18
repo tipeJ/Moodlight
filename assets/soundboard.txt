@@ -16,6 +16,8 @@ Knallit:knalli.png
  Manimanimani:mani.mp3
  Mitä tuli tehtyä?:mitateit.mp3
  Seksihullu🍆:shullu.mp3
+ Niinkin voi sanoa, jos ei tiedä mistä puhuu🤷‍♂️:niinkinvoisanoa.mp3
+ Pää kii äijä:paakii.mp3
 Härkis:banger.png
  Faktat:faktat.mp3
  Low-key Bangeri:bangeri.mp3
@@ -44,3 +46,4 @@ WoW:wow.png
 Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
+ Sattuu!🤕:sattuu.mp3
