@@ -47,3 +47,14 @@ Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
  Sattuu!🤕:sattuu.mp3
+ excuse-moi:excuse-moi.mp3
+ fleda minttis:fleda.mp3
+ good riddance:good-riddance.mp3
+ Death:mariodeath.mp3
+ Not my problem:notmyproblem.mp3
+ U serious?:userious.mp3
+ Open loot:zeldachest.mp3
+ Open loot (fast):zeldachestfast.mp3
+ -1HP:oof.mp3
+ Crit punch!:punch.mp3
+ Heavenly choir:choir.mp3
