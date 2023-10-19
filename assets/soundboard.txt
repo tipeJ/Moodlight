@@ -21,6 +21,11 @@ Knallit:knalli.png
 Härkis:banger.png
  Faktat:faktat.mp3
  Low-key Bangeri:bangeri.mp3
+Duo:duo.png
+ Sattuu!🤕:sattuu.mp3
+ Kutsuhuuto🐺:kutsuhuuto.mp3
+ Chill😎:chill.mp3
+ Ei mitään sinua vastaan...:yleinenhuonous.mp3
 Sus:sussy.png
  You've been seeming sus:seeminsus.mp3
  Sussy Baka!:sussybaka.mp3
@@ -46,7 +51,6 @@ WoW:wow.png
 Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
- Sattuu!🤕:sattuu.mp3
  excuse-moi:excuse-moi.mp3
  fleda minttis:fleda.mp3
  good riddance:good-riddance.mp3
