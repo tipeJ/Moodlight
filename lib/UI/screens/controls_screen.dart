@@ -8,20 +8,22 @@ class ControlsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ConnectionProvider>(
-        builder: (context, value, child) =>
-            value.connectedDevice != null && value.modeChar != null
-                ? Column(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            value.toggle_mode_value();
-                          },
-                          child: Text(value.mode_value == MODE_LIGHTS
-                              ? "Lights"
-                              : "Soundboard")),
-                    ],
-                  )
-                : const SizedBox());
+    return Material(
+      child: Consumer<ConnectionProvider>(
+          builder: (context, value, child) =>
+              value.connectedDevice != null && value.modeChar != null
+                  ? Column(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              value.toggle_mode_value();
+                            },
+                            child: Text(value.mode_value == MODE_LIGHTS
+                                ? "Lights"
+                                : "Soundboard")),
+                      ],
+                    )
+                  : const SizedBox()),
+    );
   }
 }

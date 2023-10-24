@@ -179,9 +179,17 @@ class _MainScreenState extends State<MainScreen> {
                     screen = const SoundBoardScreen();
                 }
                 return PageRouteBuilder(
-                    pageBuilder: (context, an1, an2) => screen,
-                    transitionDuration: Duration.zero,
-                    reverseTransitionDuration: Duration.zero);
+                  pageBuilder: (context, an1, an2) => screen,
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                  // transitionDuration: Duration.zero,
+                  // reverseTransitionDuration: Duration.zero
+                );
               }))),
     );
   }

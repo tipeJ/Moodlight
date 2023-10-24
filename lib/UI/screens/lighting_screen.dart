@@ -228,69 +228,72 @@ class LightingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DropdownButton<int>(
-                  isExpanded: true,
-                  items: Provider.of<LightingProvider>(context, listen: false)
-                      .configs
-                      .asMap()
-                      .entries
-                      .map((e) => DropdownMenuItem(
-                            value: e.key,
-                            child: Text(e.value.name),
-                          ))
-                      .toList(),
-                  value: Provider.of<LightingProvider>(context).selectedConfig,
-                  onChanged: (value) => {
-                    Provider.of<LightingProvider>(context, listen: false)
-                        .changeSelection(value!)
-                  },
+    return Material(
+      child: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: DropdownButton<int>(
+                    isExpanded: true,
+                    items: Provider.of<LightingProvider>(context, listen: false)
+                        .configs
+                        .asMap()
+                        .entries
+                        .map((e) => DropdownMenuItem(
+                              value: e.key,
+                              child: Text(e.value.name),
+                            ))
+                        .toList(),
+                    value:
+                        Provider.of<LightingProvider>(context).selectedConfig,
+                    onChanged: (value) => {
+                      Provider.of<LightingProvider>(context, listen: false)
+                          .changeSelection(value!)
+                    },
+                  ),
                 ),
               ),
-            ),
-            _getDescriptionTile(context,
-                Provider.of<LightingProvider>(context).selectedConfiguration),
-            ..._getSliversForConfig(context,
-                Provider.of<LightingProvider>(context).selectedConfiguration),
-            // Spacer for the floating button
-            const SliverToBoxAdapter(
-                child: SizedBox(
-              height: 100,
-            ))
-          ],
-        ),
-        // Floating button to send the current config
-        Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: const EdgeInsets.all(8.0),
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 75,
-              child: Consumer<ConnectionProvider>(
-                builder: (context, provider, child) => ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            provider.isConnected()
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey)),
-                    onPressed: provider.isConnected()
-                        ? () {
-                            provider.sendLightConfig(
-                                Provider.of<LightingProvider>(context,
-                                        listen: false)
-                                    .selectedConfiguration);
-                          }
-                        : null,
-                    child: const Text("Set Light Config!")),
-              ),
-            ))
-      ],
+              _getDescriptionTile(context,
+                  Provider.of<LightingProvider>(context).selectedConfiguration),
+              ..._getSliversForConfig(context,
+                  Provider.of<LightingProvider>(context).selectedConfiguration),
+              // Spacer for the floating button
+              const SliverToBoxAdapter(
+                  child: SizedBox(
+                height: 100,
+              ))
+            ],
+          ),
+          // Floating button to send the current config
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 75,
+                child: Consumer<ConnectionProvider>(
+                  builder: (context, provider, child) => ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              provider.isConnected()
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey)),
+                      onPressed: provider.isConnected()
+                          ? () {
+                              provider.sendLightConfig(
+                                  Provider.of<LightingProvider>(context,
+                                          listen: false)
+                                      .selectedConfiguration);
+                            }
+                          : null,
+                      child: const Text("Set Light Config!")),
+                ),
+              ))
+        ],
+      ),
     );
   }
 }
