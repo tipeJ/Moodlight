@@ -1,11 +1,17 @@
 Seppo Papunen:hohhoijaa.png
  Hohhoijaa:hohhoijaa.mp3
+ Ohhoh:ohhoh.mp3
  Ei harmainta aavistustakaan:eiharmainta.mp3
  Lapsen tasolla:lapsentasolla.mp3
  EMT niitä on paljon:niitaonpaljon.mp3
  No sit se on just nii:nositseonjustnii.mp3
  Totta ihmeessä!:tottaihmeessa.mp3
  Kuka näin on sanonu?:kukaonsanonu.mp3
+ Ihan älytöntä:ihanalytonta.mp3
+ En osaa sanoa ku en edes tiedä mitä se tarkottaa:enosaasanoa.mp3
+ Ne on iha jostai:neonjostain.mp3
+ Pitää lopettaa... Heti!:pitaalopettaaheti.mp3
+ Siis mitä kuka?:siismitakuka.mp3
 Knallit:knalli.png
  Ahaa!:ahaa.mp3
  Ai onko?:aionko.mp3
