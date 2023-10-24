@@ -11,6 +11,10 @@ class SoundboardPlayer {
   SoundboardPlayer._internal();
 
   Future<void> playSound(String soundFile) async {
+    // If the player is currently
+    if (player.state == PlayerState.playing) {
+      await player.stop();
+    }
     await player.play(AssetSource('sounds/${soundFile.trim()}'), volume: 1.0);
   }
 }
