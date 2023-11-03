@@ -24,7 +24,8 @@ class MoodlightApplication extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => LightingProvider()),
         ChangeNotifierProvider(create: (_) => ConnectionProvider()),
-        ChangeNotifierProvider(create: (_) => PreferencesProvider())
+        ChangeNotifierProvider(create: (_) => PreferencesProvider()),
+        ChangeNotifierProvider(create: (_) => SoundboardMoonsEditProvider()),
       ],
       child: const MyApp(),
     );
@@ -55,11 +56,19 @@ class MyApp extends StatelessWidget {
               // is not restarted.
               useMaterial3: true,
               primarySwatch: Colors.blue,
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)))),
             ),
             darkTheme: ThemeData(
               useMaterial3: true,
               brightness: Brightness.dark,
               primarySwatch: Colors.blue,
+              elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0)))),
             ),
             themeMode: preferencesProvider.isDarkMode()
                 ? ThemeMode.dark
@@ -77,6 +86,14 @@ class MyApp extends StatelessWidget {
                     case 'connector':
                       return MaterialPageRoute(
                           builder: (context) => BLEConnectionDialog());
+                    case 'soundboard_moons_edit':
+                      return MaterialPageRoute(
+                          builder: (context) =>
+                              const SoundboardMoonsEditScreen());
+                    case 'soundboard_moons_edit_add':
+                      return MaterialPageRoute<String>(
+                          builder: (context) => SoundboardScreenEditAddScreen(
+                              soundID: settings.arguments as int));
                     default:
                       return MaterialPageRoute(
                           builder: (context) => const MainScreen());

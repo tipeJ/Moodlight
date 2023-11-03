@@ -28,4 +28,17 @@ class Database {
   void setDarkMode(bool value) {
     _preferencesBox.put('darkMode', value);
   }
+
+  List<String> getSoundboardMoonSounds() {
+    // Get all sounds, from 1 to 7
+    List<String> sounds = [];
+    for (int i = 1; i <= 7; i++) {
+      sounds.add(_soundBoardBox.get('sound$i', defaultValue: ''));
+    }
+    return sounds;
+  }
+
+  void setSoundboardMoonSound(String sound, int index) {
+    _soundBoardBox.put('sound$index', sound);
+  }
 }
