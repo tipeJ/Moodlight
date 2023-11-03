@@ -32,6 +32,8 @@ Duo:duo.png
  Kutsuhuuto🐺:kutsuhuuto.mp3
  Chill😎:chill.mp3
  Ei mitään sinua vastaan...:yleinenhuonous.mp3
+ I guess we dont never know:iguesswedont.mp3
+ Ei oo nii helppoo:eioohelppoo.mp3
 Sus:sussy.png
  You've been seeming sus:seeminsus.mp3
  Sussy Baka!:sussybaka.mp3
@@ -54,6 +56,7 @@ WoW:wow.png
  Quest Complete!:wowquestcomplete.mp3
  Ready Check:wowreadycheck.ogg
  That's not funny:WoWThatsNotFunny.ogg
+ Huijausta!:huijausta!.mp3
 Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
