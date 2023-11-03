@@ -157,7 +157,7 @@ class _MainScreenState extends State<MainScreen> {
             );
           }),
           body: Navigator(
-              initialRoute: 'lighting',
+              initialRoute: 'controls',
               key: navigatorKey,
               onGenerateRoute: ((settings) {
                 late Widget screen;

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/UI/screens/screens.dart';
 import 'package:provider/provider.dart';
 
 class BLEConnectionDialog extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:moodlight/resources/resources.dart';
 
 class SoundBoardScreen extends StatelessWidget {

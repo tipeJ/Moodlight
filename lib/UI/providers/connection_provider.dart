@@ -4,11 +4,8 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:moodlight/models/light_configs.dart';
 import 'package:moodlight/resources/resources.dart';
-import 'package:moodlight/util/utils.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Handles connection with bluetooth to the device and the optional speakers
@@ -41,6 +38,10 @@ class ConnectionProvider extends ChangeNotifier {
   BluetoothService? buttonsService;
   List<BluetoothCharacteristic> buttonsCharacteristics = [];
   List<StreamSubscription<List<int>>> buttonSubscriptions = [];
+  BluetoothService? controlsService;
+  BluetoothCharacteristic? powerButtonChar;
+  BluetoothCharacteristic? brightnessChangeChar;
+
   // List of click callbacks for the buttons
   List<buttonCallback> buttonClickCallbacks = [
     handle_button_1_click,
@@ -138,12 +139,17 @@ class ConnectionProvider extends ChangeNotifier {
         orElse: () => throw Exception('Characteristic $uuid not found'));
   }
 
+  BluetoothService _getService(List<BluetoothService> services, String uuid) {
+    return services.firstWhere((element) => element.uuid == Guid(uuid),
+        orElse: () => throw Exception('Service $uuid not found'));
+  }
+
   void connectToDevice(BluetoothDevice device) async {
     try {
       print("Connecting to device: " + device.platformName);
       await device.connect();
       connectedDevice = device;
-      int requestedMtu = await connectedDevice!.requestMtu(256);
+      int requestedMtu = await connectedDevice!.requestMtu(512);
       print("Requested MTU: " + requestedMtu.toString());
       // Listen to connectionstate changes, and if disconnected, set connectedDevice to null and cancel subscriptions
       device.connectionState.listen((event) {
@@ -167,12 +173,15 @@ class ConnectionProvider extends ChangeNotifier {
       // Search for the services of the device
       List<BluetoothService> services =
           await connectedDevice!.discoverServices(timeout: 3);
-      // Take the mode service
-      modeService = services.firstWhere(
-          (element) => element.uuid == Guid(MODE_SERVICE_UUID),
-          orElse: () => throw Exception('Mode service not found'));
-      // Take the mode characteristic
-      modeChar = _getCharacteristic(modeService!, MODE_CHAR_UUID);
+
+      // ! Controls
+      controlsService = _getService(services, CONTROLS_SERVICE_UUID);
+      powerButtonChar =
+          _getCharacteristic(controlsService!, CONTROLS_POWERBUTTON_UUID);
+      brightnessChangeChar =
+          _getCharacteristic(controlsService!, CONTROLS_BRIGHT_CHANGE_UUID);
+
+      modeChar = _getCharacteristic(controlsService!, CONTROLS_MODE_CHAR_UUID);
       await modeChar!.read();
       // modeReaderStreamSubscription =
       //     modeStream(modeChar).listen((event) {}, onDone: () => print("DONE"));
@@ -183,17 +192,13 @@ class ConnectionProvider extends ChangeNotifier {
         mode_value = event[0];
       }, onDone: () => print("DONE"));
 
-      // Take the light service
-      lightService = services.firstWhere(
-          (element) => element.uuid == Guid(LIGHT_SERVICE_UUID),
-          orElse: () => throw Exception('Light service not found'));
+      // ! NeoLight
+      lightService = _getService(services, LIGHT_SERVICE_UUID);
       // Take the light characteristic
       lightChar =
           _getCharacteristic(lightService!, LIGHT_SERVICE_SETTING_CHAR_UUID);
 
-      buttonsService = services.firstWhere(
-          (element) => element.uuid == Guid(BUTTONS_SERVICE_UUID),
-          orElse: () => throw Exception('Buttons service not found'));
+      buttonsService = _getService(services, BUTTONS_SERVICE_UUID);
       // for (final char in BUTTON_CHAR_UUIDs) {
       final buttonChar =
           _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
@@ -203,6 +208,7 @@ class ConnectionProvider extends ChangeNotifier {
         print("Button pressed");
         buttonClickCallbacks[0](mode_value);
       });
+
       notifyListeners();
     } catch (e) {
       print("Error connecting to device: $e");
@@ -255,6 +261,28 @@ class ConnectionProvider extends ChangeNotifier {
     if (lightChar != null) {
       try {
         await lightChar!.write(utf8.encode(config.toJson()));
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  void sendPowerButton() async {
+    if (powerButtonChar != null) {
+      try {
+        print("Sending power button");
+        await powerButtonChar!.write([1]);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  void setBrightnessValue(String change) async {
+    if (brightnessChangeChar != null) {
+      try {
+        print("Sending brightness change: " + change);
+        await brightnessChangeChar!.write(utf8.encode(change));
       } catch (e) {
         print(e);
       }
