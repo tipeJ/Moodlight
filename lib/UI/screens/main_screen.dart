@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:moodlight/UI/dialogs/dialogs.dart';
 import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:moodlight/resources/resources.dart';
 import 'screens.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -111,7 +112,32 @@ class _MainScreenState extends State<MainScreen> {
                                   connectionProvider.disconnect();
                                   return;
                                 } else {
-                                  connectionProvider.quickConnect();
+                                  if (!Database()
+                                          .automaticallyConnectToFirstSonatable() &&
+                                      Database()
+                                          .defaultConnectionMACAddress()
+                                          .isEmpty) {
+                                    // Open manual connection dialog
+                                    connectionProvider.scan();
+                                    Navigator.of(context).pushNamed(
+                                        BLEConnectionDialog.routeName);
+                                  } else {
+                                    connectionProvider.connect((msg) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(msg),
+                                        backgroundColor: Colors.greenAccent,
+                                        duration: const Duration(seconds: 1),
+                                      ));
+                                    }, (msg) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(msg),
+                                        backgroundColor: Colors.redAccent,
+                                        duration: const Duration(seconds: 1),
+                                      ));
+                                    });
+                                  }
                                 }
                               },
                               child: connectionProvider.isScanning

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:moodlight/resources/resources.dart';
 
 class BLEConnectionDialog extends StatelessWidget {
   static const String routeName = 'connection_dialog';
@@ -40,8 +41,43 @@ class BLEConnectionDialog extends StatelessWidget {
                         .contains("sonatable"),
                     subtitle: Text(prov.devicesList[index].remoteId.toString()),
                     trailing: ElevatedButton(
-                      onPressed: () {
-                        prov.connectToDevice(prov.devicesList[index]);
+                      onPressed: () async {
+                        await prov.connectToDevice(
+                          prov.devicesList[index],
+                          onSuccess: (newAddress) async {
+                            if (Database().defaultConnectionMACAddress() !=
+                                newAddress) {
+                              // Open dialog to ask if the user wants to set this as the default connection MAC address
+                              final result = await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text(
+                                      'Set as default connection MAC address?'),
+                                  content: Text(
+                                      'Do you want to set ${prov.devicesList[index].platformName} as the default connection MAC address?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      child: Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text('Yes'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              if (result == true) {
+                                Database()
+                                    .setDefaultConnectionMACAddress(newAddress);
+                              }
+                            }
+                          },
+                        );
                         Navigator.of(context).pop();
                       },
                       child: Text('Connect'),

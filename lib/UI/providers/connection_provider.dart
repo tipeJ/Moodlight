@@ -103,8 +103,57 @@ class ConnectionProvider extends ChangeNotifier {
     // await FlutterBluePlus.stopScan();
   }
 
+  // Default connect function. Handles other connect functions with onSuccess and onFailure function callbacks
+  void connect(
+      Function(String msg) onSuccess, Function(String msg) onFailure) async {
+    // If automatic Sonatable discovery has been set, quickConnect to the first one
+    final bool automaticallyConnectToFirstSonatable =
+        Database().automaticallyConnectToFirstSonatable();
+
+    if (automaticallyConnectToFirstSonatable) {
+      quickConnect(onSuccess, onFailure);
+      return;
+    }
+    // If default device MAC is set, connect to that
+    final String defaultConnectionMACAddress =
+        Database().defaultConnectionMACAddress();
+    if (defaultConnectionMACAddress.isNotEmpty) {
+      connectToDefaultDevice(onSuccess, onFailure);
+      return;
+    }
+  }
+
+  void connectToDefaultDevice(
+      Function(String msg) onSuccess, Function(String msg) onFailure) async {
+    // If the user has set a default connection MAC address, connect to that
+    final String defaultConnectionMACAddress =
+        Database().defaultConnectionMACAddress();
+    assert(connectedDevice == null && defaultConnectionMACAddress.isNotEmpty);
+    final scanningStream = FlutterBluePlus.isScanning.listen((event) {
+      isScanning = event;
+      notifyListeners();
+    });
+    final stream = FlutterBluePlus.scanResults.asBroadcastStream();
+    stream.listen((event) {
+      for (ScanResult result in event) {
+        if (result.device.remoteId.str == defaultConnectionMACAddress) {
+          FlutterBluePlus.stopScan();
+          isScanning = false;
+          scanningStream.cancel();
+          connectToDevice(result.device);
+          return;
+        }
+      }
+    });
+    await FlutterBluePlus.startScan(
+        timeout: const Duration(seconds: 3), androidUsesFineLocation: false);
+    await stream.first.onError(
+        (error, stackTrace) => onFailure("Timeout, couldn't find device"));
+  }
+
   // Scan and connect to the first device that matches the name
-  void quickConnect() async {
+  void quickConnect(
+      Function(String msg) onSuccess, Function(String msg) onFailure) async {
     final scanningStream = FlutterBluePlus.isScanning.listen((event) {
       isScanning = event;
       notifyListeners();
@@ -122,8 +171,10 @@ class ConnectionProvider extends ChangeNotifier {
       }
     });
     await FlutterBluePlus.startScan(
-        timeout: const Duration(seconds: 3), androidUsesFineLocation: false);
-    await stream.first;
+      timeout: const Duration(seconds: 3),
+      androidUsesFineLocation: false,
+    );
+    await stream.first.onError((error, stackTrace) => onFailure("Timeout"));
   }
 
   @override
@@ -144,7 +195,8 @@ class ConnectionProvider extends ChangeNotifier {
         orElse: () => throw Exception('Service $uuid not found'));
   }
 
-  void connectToDevice(BluetoothDevice device) async {
+  Future<void> connectToDevice(BluetoothDevice device,
+      {Function(String)? onSuccess}) async {
     try {
       print("Connecting to device: " + device.platformName);
       await device.connect();
@@ -210,6 +262,11 @@ class ConnectionProvider extends ChangeNotifier {
       });
 
       notifyListeners();
+
+      // Send callback if set
+      if (onSuccess != null) {
+        onSuccess(connectedDevice!.remoteId.str);
+      }
     } catch (e) {
       print("Error connecting to device: $e");
     }
