@@ -29,6 +29,23 @@ class Database {
     _preferencesBox.put('darkMode', value);
   }
 
+  String defaultConnectionMACAddress() {
+    return _preferencesBox.get('defaultConnectionMACAddress', defaultValue: '');
+  }
+
+  void setDefaultConnectionMACAddress(String value) {
+    _preferencesBox.put('defaultConnectionMACAddress', value);
+  }
+
+  bool automaticallyConnectToFirstSonatable() {
+    return _preferencesBox.get('automaticallyConnectToFirstSonatable',
+        defaultValue: false);
+  }
+
+  void setAutomaticallyConnectToFirstSonatable(bool value) {
+    _preferencesBox.put('automaticallyConnectToFirstSonatable', value);
+  }
+
   List<String> getSoundboardMoonSounds() {
     // Get all sounds, from 1 to 7
     List<String> sounds = [];

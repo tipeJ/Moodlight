@@ -12,4 +12,22 @@ class PreferencesProvider extends ChangeNotifier {
     _database.setDarkMode(value);
     notifyListeners();
   }
+
+  String defaultConnectionMACAddress() {
+    return _database.defaultConnectionMACAddress();
+  }
+
+  void setDefaultConnectionMACAddress(String value) {
+    _database.setDefaultConnectionMACAddress(value);
+    notifyListeners();
+  }
+
+  bool automaticallyConnectToFirstSonatable() {
+    return _database.automaticallyConnectToFirstSonatable();
+  }
+
+  void setAutomaticallyConnectToFirstSonatable(bool value) {
+    _database.setAutomaticallyConnectToFirstSonatable(value);
+    notifyListeners();
+  }
 }
