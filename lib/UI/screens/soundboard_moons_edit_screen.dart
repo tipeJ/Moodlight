@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:moodlight/UI/providers/providers.dart';
+import 'package:moodlight/UI/screens/soundboard_moons_edit_add_screen.dart';
 import 'package:moodlight/main.dart';
 import 'package:provider/provider.dart';
 
 class SoundboardMoonsEditScreen extends StatelessWidget {
   const SoundboardMoonsEditScreen({Key? key}) : super(key: key);
+  static const String routeName = 'soundboard_moons_edit';
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +59,8 @@ class SoundboardMoonsEditScreen extends StatelessWidget {
                                           String? result = await mainNavigator
                                               .currentState!
                                               .pushNamed(
-                                                  'soundboard_moons_edit_add',
+                                                  SoundboardScreenEditAddScreen
+                                                      .routeName,
                                                   arguments: sound.$1);
                                           if (result != null) {
                                             value.addSound(result!, sound.$1);

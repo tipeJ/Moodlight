@@ -8,6 +8,8 @@ class SoundboardScreenEditAddScreen extends StatelessWidget {
   const SoundboardScreenEditAddScreen({Key? key, required this.soundID})
       : super(key: key);
 
+  static const String routeName = 'soundboard_edit_add';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer<SoundboardMoonsEditProvider>(

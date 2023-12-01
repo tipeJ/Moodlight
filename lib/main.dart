@@ -83,17 +83,20 @@ class MyApp extends StatelessWidget {
                 initialRoute: 'main',
                 onGenerateRoute: (settings) {
                   switch (settings.name) {
-                    case 'connector':
+                    case BLEConnectionDialog.routeName:
                       return MaterialPageRoute(
                           builder: (context) => BLEConnectionDialog());
-                    case 'soundboard_moons_edit':
+                    case SoundboardMoonsEditScreen.routeName:
                       return MaterialPageRoute(
                           builder: (context) =>
                               const SoundboardMoonsEditScreen());
-                    case 'soundboard_moons_edit_add':
+                    case SoundboardScreenEditAddScreen.routeName:
                       return MaterialPageRoute<String>(
                           builder: (context) => SoundboardScreenEditAddScreen(
                               soundID: settings.arguments as int));
+                    case SettingsScreen.routeName:
+                      return MaterialPageRoute(
+                          builder: (context) => const SettingsScreen());
                     default:
                       return MaterialPageRoute(
                           builder: (context) => const MainScreen());

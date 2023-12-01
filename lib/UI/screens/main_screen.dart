@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:moodlight/UI/dialogs/dialogs.dart';
 import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
 import 'screens.dart';
@@ -29,11 +30,29 @@ class _MainScreenState extends State<MainScreen> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                const DrawerHeader(
+                DrawerHeader(
                   decoration: BoxDecoration(
                     color: Colors.blue,
                   ),
-                  child: Text('Moodlight'),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Text('Moodlight'),
+                      ),
+                      IconButton(
+                        padding: const EdgeInsets.all(10.0),
+                        icon: const Icon(Icons.settings),
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(SettingsScreen.routeName);
+                        },
+                      )
+                    ],
+                  ),
                 ),
                 // Tile for dark mode
                 ListTile(
@@ -53,7 +72,8 @@ class _MainScreenState extends State<MainScreen> {
                     final ConnectionProvider connectionProvider =
                         Provider.of<ConnectionProvider>(context, listen: false);
                     connectionProvider.scan();
-                    Navigator.of(context).pushNamed('connector');
+                    Navigator.of(context)
+                        .pushNamed(BLEConnectionDialog.routeName);
                   },
                 ),
               ],

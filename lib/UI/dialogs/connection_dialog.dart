@@ -3,6 +3,7 @@ import 'package:moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
 
 class BLEConnectionDialog extends StatelessWidget {
+  static const String routeName = 'connection_dialog';
   @override
   Widget build(BuildContext context) {
     return Scaffold(

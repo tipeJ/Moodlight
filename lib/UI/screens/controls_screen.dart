@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:moodlight/UI/providers/providers.dart';
+import 'package:moodlight/UI/screens/soundboard_moons_edit_screen.dart';
 import 'package:moodlight/main.dart';
 import 'package:provider/provider.dart';
 import 'package:moodlight/resources/resources.dart';
@@ -9,6 +10,7 @@ import 'package:moodlight/resources/resources.dart';
 class ControlsScreen extends StatelessWidget {
   const ControlsScreen({Key? key}) : super(key: key);
   static const _powerButtonSizeRelativeToScreenWidth = 300.0;
+  static const String routeName = 'controls';
 
   @override
   Widget build(BuildContext context) {
@@ -153,8 +155,8 @@ class ControlsScreen extends StatelessWidget {
                                 )))),
                                 onPressed: () {
                                   // Launch edit screen
-                                  mainNavigator.currentState!
-                                      .pushNamed('soundboard_moons_edit');
+                                  mainNavigator.currentState!.pushNamed(
+                                      SoundboardMoonsEditScreen.routeName);
                                 },
                                 child: Icon(Icons.edit, size: 20)),
                           ),

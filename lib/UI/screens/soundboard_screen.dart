@@ -3,6 +3,7 @@ import 'package:moodlight/resources/resources.dart';
 
 class SoundBoardScreen extends StatelessWidget {
   const SoundBoardScreen({Key? key}) : super(key: key);
+  static const String routeName = 'soundboard';
 
   @override
   Widget build(BuildContext context) {
