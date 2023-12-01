@@ -34,6 +34,7 @@ Duo:duo.png
  Ei mitään sinua vastaan...:yleinenhuonous.mp3
  I guess we dont never know:iguesswedont.mp3
  Ei oo nii helppoo:eioohelppoo.mp3
+ Miten nii miten nii:miteniimitenii.mp3
 Sus:sussy.png
  You've been seeming sus:seeminsus.mp3
  Sussy Baka!:sussybaka.mp3
@@ -60,6 +61,7 @@ WoW:wow.png
 Random:random.png
  Spooky Waterphone:waterphone.mp3
  Fail Horn:failhorn.mp3
+ Perfekto!:perfekto.mp3
  excuse-moi:excuse-moi.mp3
  fleda minttis:fleda.mp3
  good riddance:good-riddance.mp3
@@ -71,3 +73,4 @@ Random:random.png
  -1HP:oof.mp3
  Crit punch!:punch.mp3
  Heavenly choir:choir.mp3
+ Action is coming!:action-is-coming.mp3
