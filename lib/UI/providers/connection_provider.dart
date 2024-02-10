@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:moodlight/models/light_configs.dart';
+import 'package:moodlight/models/models.dart';
 import 'package:moodlight/resources/resources.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
@@ -22,6 +23,10 @@ void handle_button_1_click(int mode_value) async {
   }
 }
 
+void handle_button_2_click(int mode_value) {
+  print("button 2 pressed");
+}
+
 // Constant empty callback
 void emptyCallback(int mode_value) {
   print("button pressed");
@@ -35,12 +40,13 @@ class ConnectionProvider extends ChangeNotifier {
   BluetoothCharacteristic? modeChar;
   BluetoothService? lightService;
   BluetoothCharacteristic? lightChar;
+  BluetoothCharacteristic? buttonsChar;
   BluetoothService? buttonsService;
-  List<BluetoothCharacteristic> buttonsCharacteristics = [];
-  List<StreamSubscription<List<int>>> buttonSubscriptions = [];
   BluetoothService? controlsService;
   BluetoothCharacteristic? powerButtonChar;
   BluetoothCharacteristic? brightnessChangeChar;
+  BluetoothService? tempService;
+  BluetoothCharacteristic? tempChar;
 
   // List of click callbacks for the buttons
   List<buttonCallback> buttonClickCallbacks = [
@@ -56,6 +62,8 @@ class ConnectionProvider extends ChangeNotifier {
   int mode_value = -1;
   StreamSubscription<List<int>>? modeStreamSubscription;
   StreamSubscription<void>? modeReaderStreamSubscription;
+
+  List<TemperatureData> temperatureHistory = [];
 
   Future<void> enable_bluetooth() async {
     // check adapter availability
@@ -216,7 +224,6 @@ class ConnectionProvider extends ChangeNotifier {
           modeReaderStreamSubscription = null;
           lightChar = null;
           lightService = null;
-          buttonsCharacteristics.clear();
           notifyListeners();
         }
       });
@@ -251,14 +258,34 @@ class ConnectionProvider extends ChangeNotifier {
           _getCharacteristic(lightService!, LIGHT_SERVICE_SETTING_CHAR_UUID);
 
       buttonsService = _getService(services, BUTTONS_SERVICE_UUID);
-      // for (final char in BUTTON_CHAR_UUIDs) {
-      final buttonChar =
-          _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
-      await buttonChar.setNotifyValue(true);
-      buttonsCharacteristics.add(buttonChar);
-      buttonChar.onValueReceived.listen((event) {
-        print("Button pressed");
-        buttonClickCallbacks[0](mode_value);
+      buttonsChar = _getCharacteristic(buttonsService!, BUTTON_1_CHAR_UUID);
+      await buttonsChar!.setNotifyValue(true);
+      buttonsChar!.onValueReceived.listen((event) {
+        // Get the message
+        final message = utf8.decode(event);
+        // The message is the index of the button that was pressed
+        final int buttonPressed = int.parse(message);
+        // Call the callback for the button
+        buttonClickCallbacks[buttonPressed](mode_value);
+      });
+
+      // ! Temperature
+      tempService = _getService(services, TEMP_SERVICE_UUID);
+      tempChar = _getCharacteristic(tempService!, TEMP_CHAR_UUID);
+      await tempChar!.setNotifyValue(true);
+      tempChar!.onValueReceived.listen((event) {
+        // Get the message
+        final message = utf8.decode(event);
+        double temp = double.parse(message);
+        // Round temperature to 1 decimal
+        temp = (temp * 10).round() / 10;
+        String time = DateTime.now().toString();
+        // If temperatureHistory has more than MAX_TEMPERATURE_HISTORY_LENGTH elements, remove the first one
+        if (temperatureHistory.length > MAX_TEMPERATURE_HISTORY_LENGTH + 5) {
+          temperatureHistory.removeAt(0);
+        }
+        temperatureHistory.add(TemperatureData(time, temp));
+        notifyListeners();
       });
 
       notifyListeners();

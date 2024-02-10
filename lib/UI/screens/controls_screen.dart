@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:moodlight/UI/providers/providers.dart';
 import 'package:moodlight/UI/screens/soundboard_moons_edit_screen.dart';
+import 'package:moodlight/UI/widgets/temperatureChart.dart';
 import 'package:moodlight/main.dart';
 import 'package:provider/provider.dart';
 import 'package:moodlight/resources/resources.dart';
@@ -22,6 +23,7 @@ class ControlsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    TemperatureChart(),
                     const Spacer(), // Spacer to push the buttons to the bottom
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
