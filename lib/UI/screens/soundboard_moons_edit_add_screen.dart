@@ -27,24 +27,40 @@ class SoundboardScreenEditAddScreen extends StatelessWidget {
       }
       return ListView.builder(
         itemCount: categoriesAndSounds.length,
-        itemBuilder: (context, index) => ListTile(
-          title: Text(categoriesAndSounds[index].$1.$2,
-              style: TextStyle(
-                fontSize: categoriesAndSounds[index].$2 ? 16 : 20,
-              )),
-          onTap: () {
-            if (categoriesAndSounds[index].$2) {
-              SoundboardPlayer().playSound(categoriesAndSounds[index].$1.$1);
-            }
-          },
-          trailing: IconButton(
-              onPressed: () {
-                if (categoriesAndSounds[index].$2) {
-                  Navigator.of(context).pop(categoriesAndSounds[index].$1.$1);
-                }
-              },
-              icon: const Icon(Icons.approval)),
-        ),
+        itemBuilder: (context, index) => categoriesAndSounds[index].$2
+            ? ListTile(
+                // Item
+                title: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    categoriesAndSounds[index].$1.$2,
+                  ),
+                ),
+                onTap: () {
+                  if (categoriesAndSounds[index].$2) {
+                    SoundboardPlayer()
+                        .playSound(categoriesAndSounds[index].$1.$1);
+                  }
+                },
+                trailing: IconButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(categoriesAndSounds[index].$1.$1);
+                      if (categoriesAndSounds[index].$2) {}
+                    },
+                    icon: const Icon(Icons.approval)),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  // Category
+                  categoriesAndSounds[index].$1.$2.split(':')[0],
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                      color: Theme.of(context).secondaryHeaderColor),
+                ),
+              ),
       );
     }));
   }

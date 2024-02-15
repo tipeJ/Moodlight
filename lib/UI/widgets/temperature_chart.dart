@@ -17,6 +17,7 @@ class TemperatureChart extends StatefulWidget {
 class _TemperatureChartState extends State<TemperatureChart> {
   ChartSeriesController? _chartSeriesController;
   List<TemperatureData> temperatureHistory = [];
+  ConnectionProvider? connectionProvider;
 
   @override
   void initState() {
@@ -47,8 +48,14 @@ class _TemperatureChartState extends State<TemperatureChart> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    connectionProvider = context.read<ConnectionProvider>();
+  }
+
+  @override
   void dispose() {
-    context.read<ConnectionProvider>().removeListener(_updateChart);
+    connectionProvider?.removeListener(_updateChart);
     super.dispose();
   }
 
@@ -65,7 +72,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                 temperatureHistory
                         .map((temperature) => temperature.temperature)
                         .reduce(min) -
-                    2),
+                    0.2),
         maximum: temperatureHistory.isEmpty
             ? 30
             : min(
@@ -73,7 +80,7 @@ class _TemperatureChartState extends State<TemperatureChart> {
                 temperatureHistory
                         .map((temperature) => temperature.temperature)
                         .reduce(max) +
-                    2),
+                    0.2),
         // interval: 1,
         labelFormat: '{value}°C',
       ),

@@ -13,23 +13,17 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 typedef void buttonCallback(int mode_value);
 
 // Button click callback for given index
-void handle_button_1_click(int mode_value) async {
+void handle_button_click(int mode_value, int index) async {
   if (mode_value == MODE_SOUNDBOARD) {
-    // Play the sound
-    print("PLAYING SOUND 1");
-    final player = AudioPlayer(playerId: "ASD");
-    String soundFile = "hohhoijaa.mp3";
-    await player.play(AssetSource('sounds/$soundFile'), volume: 1.0);
+    // Get the sound from the database
+    String sound = Database().getSoundAt(index);
+    if (sound.isNotEmpty) {
+      // Play the sound
+      print("PLAYING SOUND $index");
+      final player = AudioPlayer(playerId: "ASD");
+      await player.play(AssetSource('sounds/$sound'), volume: 1.0);
+    }
   }
-}
-
-void handle_button_2_click(int mode_value) {
-  print("button 2 pressed");
-}
-
-// Constant empty callback
-void emptyCallback(int mode_value) {
-  print("button pressed");
 }
 
 class ConnectionProvider extends ChangeNotifier {
@@ -47,17 +41,6 @@ class ConnectionProvider extends ChangeNotifier {
   BluetoothCharacteristic? brightnessChangeChar;
   BluetoothService? tempService;
   BluetoothCharacteristic? tempChar;
-
-  // List of click callbacks for the buttons
-  List<buttonCallback> buttonClickCallbacks = [
-    handle_button_1_click,
-    emptyCallback,
-    emptyCallback,
-    emptyCallback,
-    emptyCallback,
-    emptyCallback,
-    emptyCallback
-  ];
 
   int mode_value = -1;
   StreamSubscription<List<int>>? modeStreamSubscription;
@@ -266,7 +249,7 @@ class ConnectionProvider extends ChangeNotifier {
         // The message is the index of the button that was pressed
         final int buttonPressed = int.parse(message);
         // Call the callback for the button
-        buttonClickCallbacks[buttonPressed](mode_value);
+        handle_button_click(mode_value, buttonPressed);
       });
 
       // ! Temperature
@@ -319,6 +302,7 @@ class ConnectionProvider extends ChangeNotifier {
   void disconnect() async {
     if (connectedDevice != null) {
       await connectedDevice!.disconnect();
+      temperatureHistory.clear();
       notifyListeners();
     }
   }

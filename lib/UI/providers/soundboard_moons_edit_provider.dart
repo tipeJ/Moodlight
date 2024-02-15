@@ -64,7 +64,6 @@ class SoundboardMoonsEditProvider extends ChangeNotifier {
     if (soundFile == '') {
       return 'None';
     }
-    print(_soundboardNames.toString());
     return _soundboardNames[soundFile] ?? '';
   }
 }

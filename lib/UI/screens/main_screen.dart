@@ -81,94 +81,87 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           appBar: AppBar(
-              title: Consumer<ConnectionProvider>(
-                  builder: (context, connectionProvider, child) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        connectionProvider.connectedDevice?.platformName ?? ''),
-                    Text(connectionProvider.connectedDevice?.remoteId.str ?? '',
-                        style: Theme.of(context).textTheme.bodySmall),
-                  ],
-                );
-              }),
-              actions: [
-                Builder(
-                    builder: ((con) => Consumer<ConnectionProvider>(
-                          builder: (con, connectionProvider, child) =>
-                              Container(
-                            margin: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    connectionProvider.isConnected()
-                                        ? Colors.redAccent
-                                        : Theme.of(context).primaryColor,
-                              ),
-                              onPressed: () {
-                                if (connectionProvider.isConnected()) {
-                                  connectionProvider.disconnect();
-                                  return;
-                                } else {
-                                  if (!Database()
-                                          .automaticallyConnectToFirstSonatable() &&
-                                      Database()
-                                          .defaultConnectionMACAddress()
-                                          .isEmpty) {
-                                    // Open manual connection dialog
-                                    connectionProvider.scan();
-                                    Navigator.of(context).pushNamed(
-                                        BLEConnectionDialog.routeName);
-                                  } else {
-                                    connectionProvider.connect((msg) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(msg),
-                                        backgroundColor: Colors.greenAccent,
-                                        duration: const Duration(seconds: 1),
-                                      ));
-                                    }, (msg) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(msg),
-                                        backgroundColor: Colors.redAccent,
-                                        duration: const Duration(seconds: 1),
-                                      ));
-                                    });
-                                  }
-                                }
-                              },
-                              child: connectionProvider.isScanning
-                                  ? const Center(
-                                      child: SizedBox(
-                                      width: 15,
-                                      height: 15,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    ))
-                                  : Text(
-                                      connectionProvider.isConnected()
-                                          ? 'Disconnect'
-                                          : 'Connect',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .copyWith(
-                                            color: Colors.white,
-                                          ),
-                                    ),
+            title: Consumer<ConnectionProvider>(
+                builder: (context, connectionProvider, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(connectionProvider.connectedDevice?.platformName ?? ''),
+                  Text(connectionProvider.connectedDevice?.remoteId.str ?? '',
+                      style: Theme.of(context).textTheme.bodySmall),
+                ],
+              );
+            }),
+            actions: [
+              Builder(
+                  builder: ((con) => Consumer<ConnectionProvider>(
+                        builder: (con, connectionProvider, child) => Container(
+                          margin: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: connectionProvider.isConnected()
+                                  ? Colors.redAccent
+                                  : Theme.of(context).primaryColor,
                             ),
+                            onPressed: () {
+                              if (connectionProvider.isConnected()) {
+                                connectionProvider.disconnect();
+                                return;
+                              } else {
+                                if (!Database()
+                                        .automaticallyConnectToFirstSonatable() &&
+                                    Database()
+                                        .defaultConnectionMACAddress()
+                                        .isEmpty) {
+                                  // Open manual connection dialog
+                                  connectionProvider.scan();
+                                  Navigator.of(context)
+                                      .pushNamed(BLEConnectionDialog.routeName);
+                                } else {
+                                  connectionProvider.connect((msg) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(msg),
+                                      backgroundColor: Colors.greenAccent,
+                                      duration: const Duration(seconds: 1),
+                                    ));
+                                  }, (msg) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: Text(msg),
+                                      backgroundColor: Colors.redAccent,
+                                      duration: const Duration(seconds: 1),
+                                    ));
+                                  });
+                                }
+                              }
+                            },
+                            child: connectionProvider.isScanning
+                                ? const Center(
+                                    child: SizedBox(
+                                    width: 15,
+                                    height: 15,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
+                                  ))
+                                : Text(
+                                    connectionProvider.isConnected()
+                                        ? 'Disconnect'
+                                        : 'Connect',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                          color: Colors.white,
+                                        ),
+                                  ),
                           ),
-                        )))
-              ],
-              flexibleSpace: const Icon(
-                Icons.bluetooth_connected,
-                color: Colors.white,
-                size: 40.0,
-              )),
+                        ),
+                      )))
+            ],
+          ),
           bottomNavigationBar: Consumer<ConnectionProvider>(
               builder: (context, connectionProvider, child) {
             return BottomNavigationBar(

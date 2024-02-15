@@ -55,6 +55,10 @@ class Database {
     return sounds;
   }
 
+  String getSoundAt(int index) {
+    return _soundBoardBox.get('sound$index', defaultValue: '');
+  }
+
   void setSoundboardMoonSound(String sound, int index) {
     _soundBoardBox.put('sound$index', sound);
   }
