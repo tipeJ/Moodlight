@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:moodlight/resources/constants.dart';
+import 'package:Moodlight/resources/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:moodlight/models/models.dart';
+import 'package:Moodlight/models/models.dart';
 
 class TemperatureChart extends StatefulWidget {
   TemperatureChart({super.key});

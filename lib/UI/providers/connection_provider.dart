@@ -4,9 +4,9 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:moodlight/models/light_configs.dart';
-import 'package:moodlight/models/models.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/models/light_configs.dart';
+import 'package:Moodlight/models/models.dart';
+import 'package:Moodlight/resources/resources.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 // Handles connection with bluetooth to the device and the optional speakers

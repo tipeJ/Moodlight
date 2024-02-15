@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {

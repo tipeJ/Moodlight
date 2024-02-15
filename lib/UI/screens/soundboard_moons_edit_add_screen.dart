@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/resources/resources.dart';
 import 'package:provider/provider.dart';
 
 class SoundboardScreenEditAddScreen extends StatelessWidget {

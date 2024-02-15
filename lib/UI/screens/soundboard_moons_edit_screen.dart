@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/UI/screens/soundboard_moons_edit_add_screen.dart';
-import 'package:moodlight/main.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/screens/soundboard_moons_edit_add_screen.dart';
+import 'package:Moodlight/main.dart';
 import 'package:provider/provider.dart';
 
 class SoundboardMoonsEditScreen extends StatelessWidget {

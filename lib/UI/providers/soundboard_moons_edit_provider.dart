@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 
 // Class for editing the soundboard moon button sounds
 class SoundboardMoonsEditProvider extends ChangeNotifier {

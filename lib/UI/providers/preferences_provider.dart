@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 
 class PreferencesProvider extends ChangeNotifier {
   static final Database _database = Database();

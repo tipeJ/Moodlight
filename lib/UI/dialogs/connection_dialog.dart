@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 
 class BLEConnectionDialog extends StatelessWidget {
   static const String routeName = 'connection_dialog';

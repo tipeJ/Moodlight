@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 
 class SoundBoardScreen extends StatelessWidget {
   const SoundBoardScreen({Key? key}) : super(key: key);

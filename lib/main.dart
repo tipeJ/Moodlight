@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:moodlight/UI/dialogs/connection_dialog.dart';
-import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/UI/dialogs/connection_dialog.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/resources/resources.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'UI/screens/screens.dart';
@@ -55,7 +55,8 @@ class MyApp extends StatelessWidget {
               // Notice that the counter didn't reset back to zero; the application
               // is not restarted.
               useMaterial3: true,
-              primarySwatch: Colors.blue,
+              primarySwatch: MOODLIGHT_COLOR_1.materialColor,
+              primaryColor: MOODLIGHT_COLOR_1,
               elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -64,7 +65,8 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeData(
               useMaterial3: true,
               brightness: Brightness.dark,
-              primarySwatch: Colors.blue,
+              primarySwatch: MOODLIGHT_COLOR_3.materialColor,
+              primaryColor: MOODLIGHT_COLOR_3,
               elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

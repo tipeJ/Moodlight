@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/UI/screens/soundboard_moons_edit_screen.dart';
-import 'package:moodlight/UI/widgets/temperatureChart.dart';
-import 'package:moodlight/main.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/screens/soundboard_moons_edit_screen.dart';
+import 'package:Moodlight/UI/widgets/widgets.dart';
+import 'package:Moodlight/main.dart';
 import 'package:provider/provider.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 
 class ControlsScreen extends StatelessWidget {
   const ControlsScreen({Key? key}) : super(key: key);
@@ -160,14 +160,32 @@ class ControlsScreen extends StatelessWidget {
                                   mainNavigator.currentState!.pushNamed(
                                       SoundboardMoonsEditScreen.routeName);
                                 },
-                                child: Icon(Icons.edit, size: 20)),
+                                child: const Icon(Icons.edit, size: 20)),
                           ),
                         )
                       ],
                     ),
                   ],
                 )
-              : const SizedBox()),
+              : Center(
+                  // Display app icon if no device is connected
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.width / 2,
+                      child: Image.asset(
+                        'assets/icon/icon.png',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const GradientText(Text("Moodlight",
+                        style: TextStyle(fontSize: 34, fontFamily: 'Pacifico')))
+                  ],
+                ))),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:moodlight/UI/providers/providers.dart';
-import 'package:moodlight/models/models.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/models/models.dart';
 import 'package:provider/provider.dart';
 
 class LightingProvider extends ChangeNotifier {
@@ -279,7 +279,9 @@ class LightingScreen extends StatelessWidget {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               provider.isConnected()
                                   ? Theme.of(context).primaryColor
-                                  : Colors.grey)),
+                                  : Theme.of(context)
+                                      .primaryColorDark
+                                      .withOpacity(1))),
                       onPressed: provider.isConnected()
                           ? () {
                               provider.sendLightConfig(

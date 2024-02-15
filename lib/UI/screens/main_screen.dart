@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:moodlight/UI/dialogs/dialogs.dart';
-import 'package:moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/dialogs/dialogs.dart';
+import 'package:Moodlight/UI/providers/providers.dart';
 import 'package:provider/provider.dart';
-import 'package:moodlight/resources/resources.dart';
+import 'package:Moodlight/resources/resources.dart';
 import 'screens.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -17,7 +17,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _index = 2;
+  int _index = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +187,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
               currentIndex: _index,
-              selectedItemColor: Colors.amber[800],
+              selectedItemColor: Theme.of(context).primaryColor,
               onTap: (index) {
                 setState(() {
                   _index = index;
