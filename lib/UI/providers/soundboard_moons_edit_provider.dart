@@ -14,10 +14,10 @@ class SoundboardMoonsEditProvider extends ChangeNotifier {
   SoundboardMoonsEditProvider() {
     // Load the soundboard moon button sounds from the database
     soundboardMoonSounds = _database.getSoundboardMoonSounds();
-    _loadSounds();
+    loadSounds();
   }
 
-  void _loadSounds() async {
+  Future<void> loadSounds() async {
     // Load the asset "soundboard.txt" and split it into lines
     String sboard = await rootBundle.loadString('assets/soundboard.txt');
     List<String> sounds = sboard.split('\n');
@@ -42,13 +42,14 @@ class SoundboardMoonsEditProvider extends ChangeNotifier {
   }
 
   // Add a sound to the soundboard moon button sounds
-  void addSound(String sound, int index) {
+  Future<void> addSound(String sound, int index) async {
     soundboardMoonSounds[index] = sound;
-    _database.setSoundboardMoonSound(sound, index);
+    await _database.setSoundboardMoonSound(sound, index);
     notifyListeners();
   }
 
   void reorderSounds(int oldIndex, int newIndex) {
+    // ! UNUSED AT THIS TIME
     // Reorder the sounds
     String sound = soundboardMoonSounds[oldIndex];
     soundboardMoonSounds.removeAt(oldIndex);

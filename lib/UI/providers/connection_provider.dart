@@ -9,17 +9,14 @@ import 'package:Moodlight/models/models.dart';
 import 'package:Moodlight/resources/resources.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-// Handles connection with bluetooth to the device and the optional speakers
-typedef void buttonCallback(int mode_value);
-
 // Button click callback for given index
 void handle_button_click(int mode_value, int index) async {
+  print("Button $index pressed");
   if (mode_value == MODE_SOUNDBOARD) {
     // Get the sound from the database
-    String sound = Database().getSoundAt(index);
+    String sound = Database().getSoundAt(index - 1);
     if (sound.isNotEmpty) {
       // Play the sound
-      print("PLAYING SOUND $index");
       final player = AudioPlayer(playerId: "ASD");
       await player.play(AssetSource('sounds/$sound'), volume: 1.0);
     }

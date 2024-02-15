@@ -12,11 +12,18 @@ void main() async {
   final dir = await getApplicationDocumentsDirectory();
   Hive.init(dir.path);
   await Database().init();
-  runApp(const MoodlightApplication());
+  final SoundboardMoonsEditProvider soundboardMoonsEditProvider =
+      SoundboardMoonsEditProvider();
+  await soundboardMoonsEditProvider.loadSounds();
+  runApp(MoodlightApplication(
+      soundboardMoonsEditProvider: soundboardMoonsEditProvider));
 }
 
 class MoodlightApplication extends StatelessWidget {
-  const MoodlightApplication({Key? key}) : super(key: key);
+  final SoundboardMoonsEditProvider soundboardMoonsEditProvider;
+  const MoodlightApplication(
+      {Key? key, required this.soundboardMoonsEditProvider})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +32,7 @@ class MoodlightApplication extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LightingProvider()),
         ChangeNotifierProvider(create: (_) => ConnectionProvider()),
         ChangeNotifierProvider(create: (_) => PreferencesProvider()),
-        ChangeNotifierProvider(create: (_) => SoundboardMoonsEditProvider()),
+        ChangeNotifierProvider(create: (_) => soundboardMoonsEditProvider),
       ],
       child: const MyApp(),
     );

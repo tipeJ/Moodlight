@@ -49,7 +49,7 @@ class Database {
   List<String> getSoundboardMoonSounds() {
     // Get all sounds, from 1 to 7
     List<String> sounds = [];
-    for (int i = 1; i <= 7; i++) {
+    for (int i = 0; i <= 6; i++) {
       sounds.add(_soundBoardBox.get('sound$i', defaultValue: ''));
     }
     return sounds;
@@ -59,7 +59,9 @@ class Database {
     return _soundBoardBox.get('sound$index', defaultValue: '');
   }
 
-  void setSoundboardMoonSound(String sound, int index) {
-    _soundBoardBox.put('sound$index', sound);
+  Future<void> setSoundboardMoonSound(String sound, int index) async {
+    // Replace old value
+    await _soundBoardBox.delete('sound$index');
+    await _soundBoardBox.put('sound$index', sound);
   }
 }

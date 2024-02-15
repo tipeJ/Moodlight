@@ -18,11 +18,9 @@ class SoundboardScreenEditAddScreen extends StatelessWidget {
       List<((String, String), bool)> categoriesAndSounds = [];
       for (var category in value.soundFileToNameMapper.keys) {
         categoriesAndSounds.add((('', category), false));
-        print(category);
         for (var sound
             in value.soundFileToNameMapper[category]!.entries.toList()) {
           categoriesAndSounds.add(((sound.key, sound.value), true));
-          print(sound);
         }
       }
       return ListView.builder(
@@ -46,7 +44,6 @@ class SoundboardScreenEditAddScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context)
                           .pop(categoriesAndSounds[index].$1.$1);
-                      if (categoriesAndSounds[index].$2) {}
                     },
                     icon: const Icon(Icons.approval)),
               )

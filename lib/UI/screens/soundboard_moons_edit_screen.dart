@@ -48,8 +48,7 @@ class SoundboardMoonsEditScreen extends StatelessWidget {
                         Expanded(
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height,
-                            child: ReorderableListView(
-                                onReorder: ((oldIndex, newIndex) {}),
+                            child: ListView(
                                 itemExtent: 75,
                                 children: value.soundboardMoonSounds.indexed
                                     .toList()
@@ -63,7 +62,8 @@ class SoundboardMoonsEditScreen extends StatelessWidget {
                                                       .routeName,
                                                   arguments: sound.$1);
                                           if (result != null) {
-                                            value.addSound(result!, sound.$1);
+                                            await value.addSound(
+                                                result, sound.$1);
                                           }
                                         },
                                         child: Container(
