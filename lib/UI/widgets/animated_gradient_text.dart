@@ -12,7 +12,6 @@ class GradientText extends StatefulWidget {
 class _GradientTextState extends State<GradientText>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<Color?> _animation;
 
   @override
   void initState() {
