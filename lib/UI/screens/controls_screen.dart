@@ -93,77 +93,83 @@ class ControlsScreen extends StatelessWidget {
                       ],
                     ),
                     const Spacer(), // Spacer to push the buttons to the bottom
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                            style: ButtonStyle(
-                                padding: MaterialStateProperty.all<
-                                        EdgeInsetsGeometry>(
-                                    const EdgeInsets.only(
-                                        left: 7.5,
-                                        right: 10.0,
-                                        top: 2.5,
-                                        bottom: 2.5)),
-                                shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(20.0),
-                                  bottomLeft: const Radius.circular(20.0),
-                                  bottomRight:
-                                      value.mode_value == MODE_SOUNDBOARD
-                                          ? const Radius.circular(0.0)
-                                          : const Radius.circular(20.0),
-                                  topRight: value.mode_value == MODE_SOUNDBOARD
-                                      ? const Radius.circular(0.0)
-                                      : const Radius.circular(20.0),
-                                )))),
-                            onPressed: () {
-                              value.toggle_mode_value();
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width / 2 -
-                                  (value.mode_value == MODE_SOUNDBOARD
-                                      ? 68 + 5
-                                      : 0),
-                              child: Row(
-                                children: [
-                                  Icon(Icons.nightlight),
-                                  Text(value.mode_value == MODE_LIGHTS
-                                      ? "Lights"
-                                      : "Soundboard"),
-                                ],
-                              ),
-                            )),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        // Soundboard edit button
-                        Visibility(
-                          visible: value.mode_value == MODE_SOUNDBOARD,
-                          child: SizedBox(
-                            width: 68.0,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(0.0),
-                                  bottomLeft: Radius.circular(0.0),
-                                  bottomRight: Radius.circular(20.0),
-                                  topRight: Radius.circular(20.0),
-                                )))),
-                                onPressed: () {
-                                  // Launch edit screen
-                                  mainNavigator.currentState!.pushNamed(
-                                      SoundboardMoonsEditScreen.routeName);
-                                },
-                                child: const Icon(Icons.edit, size: 20)),
+                    SizedBox(
+                      height: 55,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                      const EdgeInsets.only(
+                                          left: 7.5,
+                                          right: 10.0,
+                                          top: 0,
+                                          bottom: 0)),
+                                  shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.only(
+                                    topLeft: const Radius.circular(20.0),
+                                    bottomLeft: const Radius.circular(20.0),
+                                    bottomRight:
+                                        value.mode_value == MODE_SOUNDBOARD
+                                            ? const Radius.circular(0.0)
+                                            : const Radius.circular(20.0),
+                                    topRight:
+                                        value.mode_value == MODE_SOUNDBOARD
+                                            ? const Radius.circular(0.0)
+                                            : const Radius.circular(20.0),
+                                  )))),
+                              onPressed: () {
+                                value.toggle_mode_value();
+                              },
+                              child: SizedBox(
+                                height: 55,
+                                width: MediaQuery.of(context).size.width / 2 -
+                                    (value.mode_value == MODE_SOUNDBOARD
+                                        ? 68 + 5
+                                        : 0),
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.nightlight),
+                                    Text(value.mode_value == MODE_LIGHTS
+                                        ? "Lights"
+                                        : "Soundboard"),
+                                  ],
+                                ),
+                              )),
+                          const SizedBox(
+                            width: 5,
                           ),
-                        )
-                      ],
+                          // Soundboard edit button
+                          Visibility(
+                            visible: value.mode_value == MODE_SOUNDBOARD,
+                            child: SizedBox(
+                              width: 68.0,
+                              height: 55,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                      shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                          const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(0.0),
+                                    bottomLeft: Radius.circular(0.0),
+                                    bottomRight: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0),
+                                  )))),
+                                  onPressed: () {
+                                    // Launch edit screen
+                                    mainNavigator.currentState!.pushNamed(
+                                        SoundboardMoonsEditScreen.routeName);
+                                  },
+                                  child: const Icon(Icons.edit, size: 20)),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 )

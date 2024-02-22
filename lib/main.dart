@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
     return Consumer<PreferencesProvider>(
       builder: (context, preferencesProvider, child) {
         return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Sonatable',
             theme: ThemeData(
               // This is the theme of your application.
               //

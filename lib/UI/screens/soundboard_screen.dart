@@ -1,5 +1,90 @@
+import 'dart:math';
+
+import 'package:Moodlight/UI/providers/providers.dart';
+import 'package:Moodlight/UI/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:Moodlight/resources/resources.dart';
+
+class SoundBoardScreenMoonButtonsWrapper extends StatelessWidget {
+  final Widget child;
+  const SoundBoardScreenMoonButtonsWrapper({Key? key, required this.child})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // Wrapper for the soundboard screen, adds the EXPANDABLE FAB, which will show 7 buttons
+    return Scaffold(
+      body: child,
+      floatingActionButton: ExpandableFab(
+        distance: 200.0,
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 1);
+              },
+              icon: const Icon(Icons.music_note),
+            ),
+          ),
+          CircleAvatar(
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 2);
+              },
+              icon: const Icon(Icons.brightness_3),
+            ),
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 3);
+              },
+              icon: const Icon(Icons.music_note),
+            ),
+          ),
+          CircleAvatar(
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 4);
+              },
+              icon: const Icon(Icons.brightness_3),
+            ),
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 5);
+              },
+              icon: const Icon(Icons.music_note),
+            ),
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 6);
+                Navigator.of(context).pushNamed('soundboard');
+              },
+              icon: const Icon(Icons.music_note),
+            ),
+          ),
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+            child: IconButton(
+              onPressed: () {
+                handle_button_click(MODE_SOUNDBOARD, 7);
+              },
+              icon: const Icon(Icons.music_note),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class SoundBoardScreen extends StatelessWidget {
   const SoundBoardScreen({Key? key}) : super(key: key);

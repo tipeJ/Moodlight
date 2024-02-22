@@ -77,6 +77,14 @@ class _MainScreenState extends State<MainScreen> {
                         .pushNamed(BLEConnectionDialog.routeName);
                   },
                 ),
+                // Open soundboard edit stuff
+                ListTile(
+                  title: const Text('Edit Soundboard'),
+                  onTap: () {
+                    Navigator.of(context)
+                        .pushNamed(SoundboardMoonsEditScreen.routeName);
+                  },
+                ),
               ],
             ),
           ),
@@ -202,11 +210,13 @@ class _MainScreenState extends State<MainScreen> {
                 late Widget screen;
                 switch (settings.name) {
                   case 'soundboard':
-                    screen = const SoundBoardScreen();
+                    final child = const SoundBoardScreen();
+                    screen = SoundBoardScreenMoonButtonsWrapper(child: child);
                     break;
                   case 'soundboardCategory':
-                    screen = SoundBoardCategoryScreen(
+                    final child = SoundBoardCategoryScreen(
                         category: settings.arguments as String);
+                    screen = SoundBoardScreenMoonButtonsWrapper(child: child);
                     break;
                   case 'controls':
                     screen = const ControlsScreen();

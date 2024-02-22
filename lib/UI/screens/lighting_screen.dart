@@ -272,7 +272,7 @@ class LightingScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.all(8.0),
                 width: MediaQuery.of(context).size.width * 0.8,
-                height: 75,
+                height: 55,
                 child: Consumer<ConnectionProvider>(
                   builder: (context, provider, child) => ElevatedButton(
                       style: ButtonStyle(
